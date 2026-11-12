@@ -2,18 +2,21 @@
 EDA: ¿Incide el turismo en el precio de la vivienda?
 
 ## Objetivo
-En este EDA se explorar, con data sets de referencia, si existe alguna correlación entre el **crecimiento del turismo receptivo** y la **evolución del precio de la vivienda** a nivel mundial. El análisis exploratorio de datos (EDA) lo he filtrado y depurado con Python y diversas librerías (Numpy, Pandas, Seaborn, Matplotlib...)
+En este EDA se explora, con data sets de referencia, si existe alguna correlación entre el **crecimiento del turismo receptivo**, **la inflación** y la **evolución del precio de la vivienda** a nivel mundial. El análisis exploratorio de datos (EDA) lo he filtrado y depurado con Python y diversas librerías (Numpy, Pandas, Seaborn, Matplotlib, pycountry...)
 
-En este caso, el **turismo receptivo** (*inbound tourism*) es el de los visitantes no residentes que llegan a un país desde el extranjero, y pernoctan al menos una noche.
+En este caso, el **turismo receptivo** (*inbound tourism*) es el de los no residentes que llegan a un país desde el extranjero, y pernoctan al menos una noche. Los datos de la inflación están sacados del Banco Mundial. 
 
 ## Hipótesis principal
 
-> **¿Los países donde más crece el turismo receptivo son también los países donde más sube el precio de la vivienda?**
+> **¿Los países donde más crece el turismo internacional son también los países donde más sube el precio de la vivienda?**
 
 La lógica es que más turistas aumentan la demanda de alojamiento, no solo a nivel hotelero, sino también extrahotelero (con el impulso de vivienda vacacional, alquileres de temporada, colivings, segunda residencia, multipropiedad, home sharing...). Este aumento de la demanda, podría presionar los precios al alza. 
 
 Este trabajo no pretende demostrar que el turismo cause la subida de la vivienda. Pretende comprobar si ambas variables **se mueven juntas**: en caso de ser así, merecería la pena poner la lupa y analizar todo de manera más detallada.
 
+## Hipótesis secundaria
+
+¿La línea de la inflación acompaña a la línea de la subida de los precios de la vivienda?
 
 ## Fuentes de datos
 
