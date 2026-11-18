@@ -86,7 +86,7 @@ Python · Pandas · NumPy · Matplotlib · Seaborn · Jupyter Notebook · Visual
 
 ## Uso de IA
 
-Se ha utilizado Claude como apoyo en la revisión del código, en dudas y en la organización del proyecto. 
+Se ha utilizado Claude como apoyo en la revisión del código, en dudas, en la organización de partes del proyecto como la memoria, y elaboración de las funciones que permiten la automatización de algunos procesos.
 
 ## Autoría
 
