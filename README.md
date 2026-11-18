@@ -1,6 +1,6 @@
 # ¿Incide el turismo en el precio de la vivienda?
 
-![Header_EDA](src/images/Header_EDA.jpg)
+![Header_EDA](src/Images/Header_EDA.jpg)
 
 **Proyecto 2 · Análisis exploratorio de datos (EDA). 
 
