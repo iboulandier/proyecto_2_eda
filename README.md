@@ -1,40 +1,93 @@
-# proyecto_2_eda
-EDA: ¿Incide el turismo en el precio de la vivienda?
+# ¿Incide el turismo en el precio de la vivienda?
+
+![Header_EDA](src/images/Header_EDA.jpg)
+
+**Proyecto 2 · Análisis exploratorio de datos (EDA). 
 
 ## Objetivo
-En este EDA se explora, con data sets de referencia, si existe alguna correlación entre el **crecimiento del turismo receptivo**, **la inflación** y la **evolución del precio de la vivienda** a nivel mundial. El análisis exploratorio de datos (EDA) lo he filtrado y depurado con Python y diversas librerías (Numpy, Pandas, Seaborn, Matplotlib, pycountry...)
 
-En este caso, el **turismo receptivo** (*inbound tourism*) es el de los no residentes que llegan a un país desde el extranjero, y pernoctan al menos una noche. Los datos de la inflación están sacados del Banco Mundial. 
+Explorar, con datos públicos y con Python, si existe asociación entre el **crecimiento del turismo receptivo**, la **inflación**, el **crecimiento del PIB per cápita** y la **evolución del precio de la vivienda** a nivel mundial (2016-2024).
 
-## Hipótesis principal
+El **turismo receptivo** (*inbound tourism*) es el de los no residentes que llegan a un país desde el extranjero y pernoctan al menos una noche.
 
-> **¿Los países donde más crece el turismo internacional son también los países donde más sube el precio de la vivienda?**
+> Este trabajo habla de **asociación, no de causalidad**: comprueba si las variables se mueven juntas, no si una provoca la otra.
 
-La lógica es que más turistas aumentan la demanda de alojamiento, no solo a nivel hotelero, sino también extrahotelero (con el impulso de vivienda vacacional, alquileres de temporada, colivings, segunda residencia, multipropiedad, home sharing...). Este aumento de la demanda, podría presionar los precios al alza. 
+## Hipótesis
 
-Este trabajo no pretende demostrar que el turismo cause la subida de la vivienda. Pretende comprobar si ambas variables **se mueven juntas**: en caso de ser así, merecería la pena poner la lupa y analizar todo de manera más detallada.
+| | Pregunta |
+|---|---|
+| **H1** (principal) | ¿Los países donde más crece el turismo internacional son también los países donde más sube el precio de la vivienda? |
+| **H2** (secundaria) | ¿La línea de la inflación acompaña a la línea de la subida de los precios de la vivienda? |
+| **H3** (contexto) | ¿Acompaña el crecimiento del PIB per cápita al crecimiento del precio de la vivienda? |
 
-## Hipótesis secundaria
+## Datos
 
-¿La línea de la inflación acompaña a la línea de la subida de los precios de la vivienda?
+| Variable | Fuente |
+|---|---|
+| Turistas internacionales que pernoctan | [UN Tourism (OMT)](https://www.untourism.int/es/la-omt-recopila-sistematicamente-estadisticas-turisticas) |
+| Precio de la vivienda (variación interanual, trimestral) | [BIS](https://data.bis.org/topics/RPP), a través de [Datahub](https://datahub.io/core/house-prices-global) |
+| Inflación (precios al consumidor) | [Banco Mundial](https://data.worldbank.org/indicator/FP.CPI.TOTL.ZG) |
+| PIB per cápita (US$ corrientes) | [Banco Mundial](https://data.worldbank.org/indicator/NY.GDP.PCAP.CD) |
 
-## Fuentes de datos
+Los cuatro datasets se limpian por separado, se homogenizan con un código de país común (`iso3`) y se unen por país y año. Resultado: **54 países** con datos completos en algún tramo (408 observaciones) y un **panel de 25 países** con la serie completa 2016-2024.
 
-### BIS Data Portal: precios de vivienda
+## Qué se ha hecho
 
-El **BIS** (*Bank for International Settlements*, Banco de Pagos Internacionales) es una organización con sede en Basilea (Suiza) que agrupa a bancos centrales de todo el mundo y publica estadísticas económicas y financieras. Su **Data Portal** (`data.bis.org`) reúne esas series.
+1. Limpieza de cada dataset (un notebook por fuente).
+2. Unión de los cuatro datasets (*merge*) y selección de muestra.
+3. Medianas por año (más robustas que la media ante los extremos de la pandemia).
+4. Crecimiento real de la vivienda (precio menos inflación).
+5. Seis visualizaciones y una comprobación de robustez de las correlaciones.
 
-- **Dataset:** *Selected residential property prices* (`WS_SPP`).
-- **Contenido:** índice de precios de vivienda residencial, **real** (descontada la inflación) y **nominal**, base 2010 = 100.
-- **Cobertura:** 57 países (más 4 agregados regionales, que se excluyen), con datos trimestrales.
+## Conclusiones (resumen)
 
-### OMT / UN Tourism: turismo receptivo
+- **H1:** no hay indicios de que turismo y precio de la vivienda se muevan juntos en estos datos (correlación -0,02).
+- **H2:** hay indicios de asociación positiva con la inflación, pero poco estable (0,73 con todos los datos).
+- **H3:** asociación positiva débil con el PIB per cápita (0,17).
+- La mediana del precio de la vivienda crece alrededor de un 6 % anual, por encima de la inflación mediana (2,4 %).
 
-La **OMT** (Organización Mundial del Turismo), que desde 2024 se denomina **UN Tourism**, es el organismo de las Naciones Unidas dedicado a promover el turismo y a recopilar sus estadísticas. Su sede está en Madrid.
+El detalle y la discusión están en la [memoria](MEMORIA_EDA.ipynb).
+
+## Estructura del repositorio
+
+```
+├── MEMORIA_EDA.ipynb      # Memoria: libro de instrucciones del proyecto
+├── README.md
+└── src/
+    ├── data/
+    │   ├── Brutos/        # Datos originales de las fuentes
+    │   ├── Depurados/     # Un CSV limpio por dataset
+    │   └── Mergeados/     # Datasets unidos y medianas
+    ├── notebooks/         # Limpieza de cada dataset y merge final
+    ├── Visualizaciones/   # Un notebook y una imagen por gráfico
+    ├── utils/             # archivos.py: funciones para cargar y guardar
+    └── images/            # Imágenes de la memoria y del README
+```
+
+## Cómo reproducirlo
+
+1. Clonar el repositorio e instalar las librerías: `pip install pandas numpy matplotlib seaborn jupyter`
+2. Ejecutar los notebooks de [`src/notebooks`](src/notebooks) (los cuatro de limpieza y después el del *merge*).
+3. Ejecutar los notebooks de [`src/Visualizaciones`](src/Visualizaciones), del 01 al 06.
+
+Cada notebook se ejecuta con *Restart + Run All*.
+
+## Tecnologías
+
+Python · Pandas · NumPy · Matplotlib · Seaborn · Jupyter Notebook · Visual Studio Code · Git y GitHub
 
 ## Limitaciones
 
-**Cobertura limitada de países:** el mercado de la vivienda es local y nacional, y cada país mide los precios a su manera. El BIS, que reúne los datos de los bancos centrales, es la mejor fuente abierta que he encontrado, pero solo cubre 57 países.
-- **Huecos en el turismo:** la base de la OMT es amplia, pero en 2023 y 2024 hay pocos países con datos, por lo que el periodo más sólido es anterior.
-- **2020 y 2021** son años atípicos por la pandemia.
-- El indicador cuenta **viajes**, no personas, noches ni gasto, y no distingue el tipo de alojamiento.
+- **Cobertura:** el BIS solo cubre 57 países, sobre todo economías avanzadas.
+- **Turismo:** faltan datos de 2023 y 2024 en muchos países, y 2020-2022 son años atípicos por la pandemia (efecto de base).
+- **Pocos años:** la serie mundial tiene 9 puntos.
+- **PIB en dólares corrientes:** mezcla crecimiento económico y tipo de cambio.
+- **Vivienda en términos nominales:** el crecimiento real es una aproximación (precio menos inflación).
+
+## Uso de IA
+
+Se ha utilizado Claude como apoyo en la revisión del código, en dudas y en la organización del proyecto. 
+
+## Autoría
+
+[GitHub](https://github.com/iboulandier)
